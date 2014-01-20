@@ -1,4 +1,4 @@
-package org.vaadin.webinars.springandvaadin.multiple.ui;
+package org.vaadin.webinars.springandvaadin.single.ui;
 
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
@@ -8,12 +8,12 @@ import com.vaadin.ui.themes.Reindeer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
-import org.vaadin.webinars.springandvaadin.multiple.backend.ChatMessage;
-import org.vaadin.webinars.springandvaadin.multiple.backend.ChatService;
-import org.vaadin.webinars.springandvaadin.multiple.backend.MessagePostedEvent;
+import org.springframework.context.event.ApplicationEventMulticaster;
+import org.vaadin.webinars.springandvaadin.single.backend.ChatMessage;
+import org.vaadin.webinars.springandvaadin.single.backend.ChatService;
+import org.vaadin.webinars.springandvaadin.single.backend.MessagePostedEvent;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 /**
  * @author petter@vaadin.com
@@ -23,11 +23,9 @@ import javax.annotation.PreDestroy;
 public class ChatView extends VerticalLayout implements View, ApplicationListener<MessagePostedEvent> {
 
     @Autowired
-    SpringManagedUI ui;
-    @Autowired
     ChatService chatService;
     @Autowired
-    EventBroker eventBroker;
+    ApplicationEventMulticaster eventMulticaster;
     private Label roomLabel;
     private Panel messagesPanel;
     private VerticalLayout messagesLayout;
@@ -65,7 +63,7 @@ public class ChatView extends VerticalLayout implements View, ApplicationListene
         post = new Button("Post", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                chatService.post(new ChatMessage(ui.getAuthor(), room, message.getValue()));
+                chatService.post(new ChatMessage(((SpringManagedUI) getUI()).getAuthor(), room, message.getValue()));
                 message.setValue("");
                 message.focus();
             }
@@ -77,12 +75,12 @@ public class ChatView extends VerticalLayout implements View, ApplicationListene
     @Override
     public void attach() {
         super.attach();
-        eventBroker.addApplicationListener(this);
+        eventMulticaster.addApplicationListener(this);
     }
 
     @Override
     public void detach() {
-        eventBroker.removeApplicationListener(this);
+        eventMulticaster.removeApplicationListener(this);
         super.detach();
     }
 
