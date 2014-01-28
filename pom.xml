@@ -19,6 +19,12 @@
         <module>aspectj</module>
         <module>serialization</module>
         <module>i18n</module>
+
+        <!-- actual integration to be factored out into a separate module -->
+        <module>spring-vaadin</module>
+        <module>spring-boot-vaadin</module>
+
+
     </modules>
     <packaging>pom</packaging>
 

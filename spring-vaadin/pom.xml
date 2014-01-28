@@ -9,20 +9,18 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.vaadin.webinars.springandvaadin</groupId>
-    <artifactId>boot-example</artifactId>
+    <artifactId>spring-vaadin</artifactId>
     <packaging>war</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>org.vaadin.webinars.springandvaadin</groupId>
-            <artifactId>spring-boot-vaadin</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
     </dependencies>
 
