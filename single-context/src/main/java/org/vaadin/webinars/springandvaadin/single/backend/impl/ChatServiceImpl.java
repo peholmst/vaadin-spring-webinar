@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * @author petter@vaadin.com
  */
-//@Service todo
+@Service
 public class ChatServiceImpl implements ChatService {
 
     private final Map<String, List<ChatMessage>> messages = new HashMap<>();

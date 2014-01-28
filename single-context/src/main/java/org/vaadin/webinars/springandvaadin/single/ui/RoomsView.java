@@ -16,13 +16,13 @@ import javax.annotation.PostConstruct;
  * @author petter@vaadin.com
  */
 //@ManagedComponent("rooms")
-@Scope("prototype")
+@Scope("ui")
 public class RoomsView extends VerticalLayout implements View, ApplicationListener<RoomCreatedEvent> {
 
     @Autowired
     ChatService chatService;
-    @Autowired
-    ApplicationEventMulticaster eventMulticaster;
+//    @Autowired
+//    ApplicationEventMulticaster eventMulticaster;
 
     private TextField newRoomField;
     private ListSelect rooms;
@@ -75,12 +75,12 @@ public class RoomsView extends VerticalLayout implements View, ApplicationListen
     @Override
     public void attach() {
         super.attach();
-        eventMulticaster.addApplicationListener(this);
+//        eventMulticaster.addApplicationListener(this);
     }
 
     @Override
     public void detach() {
-        eventMulticaster.removeApplicationListener(this);
+ //       eventMulticaster.removeApplicationListener(this);
         super.detach();
     }
 
