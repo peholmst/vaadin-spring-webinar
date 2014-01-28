@@ -11,12 +11,13 @@ import org.vaadin.webinars.springandvaadin.bootexample.backend.RoomCreatedEvent;
 import java.util.*;
 
 /**
- * @author petter@vaadin.com
+ * @author Petter Holmström (petter@vaadin.com)
  */
 @Service
 public class ChatServiceImpl implements ChatService {
 
-    private final Map<String, List<ChatMessage>> messages = new HashMap<>();
+    private final Map<String, List<ChatMessage>> messages = new HashMap<String, List<ChatMessage>>();
+
     @Autowired
     ApplicationEventPublisher eventPublisher;
 

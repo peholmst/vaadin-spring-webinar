@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author petter@vaadin.com
+ * @author Petter Holmström (petter@vaadin.com)
  */
 public class ChatMessage implements Serializable {
 

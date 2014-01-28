@@ -15,7 +15,7 @@ import javax.servlet.ServletException;
  * about the current Vaadin {@link com.vaadin.ui.UI} in a thread-local
  * for the custom {@link org.vaadin.spring.VaadinUiScope scope}.
  *
- * @author Petter Holmström (petter@vaadin.com)
+ * @author petter@vaadin.com
  * @author Josh Long (josh@joshlong.com)
  */
 public class SpringAwareVaadinServlet extends VaadinServlet {

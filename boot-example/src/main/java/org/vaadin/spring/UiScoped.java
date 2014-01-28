@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 /**
  * Stereotype annotation for Spring's {@code \@Scope("ui")}.
  *
- * @author Petter Holmström (petter@vaadin.com)
+ * @author petter@vaadin.com
  * @author Josh Long (josh@joshlong.com)
  */
 @Scope("ui")
