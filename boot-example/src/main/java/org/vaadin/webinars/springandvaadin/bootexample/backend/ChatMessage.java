@@ -1,4 +1,4 @@
-package org.vaadin.webinars.springandvaadin.single.backend;
+package org.vaadin.webinars.springandvaadin.bootexample.backend;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package org.vaadin.webinars.springandvaadin.single.ui;
+package org.vaadin.webinars.springandvaadin.bootexample.ui;
 
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.event.ApplicationEventMulticaster;
-import org.vaadin.webinars.springandvaadin.single.backend.ChatMessage;
-import org.vaadin.webinars.springandvaadin.single.backend.ChatService;
-import org.vaadin.webinars.springandvaadin.single.backend.MessagePostedEvent;
+import org.vaadin.webinars.springandvaadin.bootexample.backend.ChatMessage;
+import org.vaadin.webinars.springandvaadin.bootexample.backend.ChatService;
+import org.vaadin.webinars.springandvaadin.bootexample.backend.MessagePostedEvent;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

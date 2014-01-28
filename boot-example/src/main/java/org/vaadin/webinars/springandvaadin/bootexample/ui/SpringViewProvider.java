@@ -1,4 +1,4 @@
-package org.vaadin.webinars.springandvaadin.single.ui;
+package org.vaadin.webinars.springandvaadin.bootexample.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewProvider;

@@ -1,12 +1,12 @@
-package org.vaadin.webinars.springandvaadin.single.backend.impl;
+package org.vaadin.webinars.springandvaadin.bootexample.backend.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.vaadin.webinars.springandvaadin.single.backend.ChatMessage;
-import org.vaadin.webinars.springandvaadin.single.backend.ChatService;
-import org.vaadin.webinars.springandvaadin.single.backend.MessagePostedEvent;
-import org.vaadin.webinars.springandvaadin.single.backend.RoomCreatedEvent;
+import org.vaadin.webinars.springandvaadin.bootexample.backend.ChatMessage;
+import org.vaadin.webinars.springandvaadin.bootexample.backend.ChatService;
+import org.vaadin.webinars.springandvaadin.bootexample.backend.MessagePostedEvent;
+import org.vaadin.webinars.springandvaadin.bootexample.backend.RoomCreatedEvent;
 
 import java.util.*;
 

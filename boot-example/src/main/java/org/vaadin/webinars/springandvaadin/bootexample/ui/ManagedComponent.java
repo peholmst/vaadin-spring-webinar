@@ -1,4 +1,4 @@
-package org.vaadin.webinars.springandvaadin.single.ui;
+package org.vaadin.webinars.springandvaadin.bootexample.ui;
 
 /**
  * Alias for {@link org.springframework.stereotype.Component} to prevent conflicts with {@link com.vaadin.ui.Component}.

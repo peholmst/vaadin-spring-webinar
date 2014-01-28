@@ -15,8 +15,7 @@
     </parent>
 
     <modules>
-        <module>multiple-contexts</module>
-        <module>single-context</module>
+        <module>boot-example</module>
         <module>aspectj</module>
         <module>serialization</module>
         <module>i18n</module>

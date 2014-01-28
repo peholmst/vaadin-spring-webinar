@@ -1,4 +1,4 @@
-package org.vaadin.webinars.springandvaadin.single;
+package org.vaadin.webinars.springandvaadin.bootexample;
 
 
 import com.vaadin.server.ClientConnector.DetachEvent;
@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.vaadin.webinars.springandvaadin.single.ui.SpringManagedUI;
+import org.vaadin.webinars.springandvaadin.bootexample.ui.SpringManagedUI;
 
 import javax.servlet.ServletException;
 import java.util.Collections;
