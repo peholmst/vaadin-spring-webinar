@@ -8,12 +8,13 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.vaadin.spring.UiScope;
 
 /**
  * @author petter@vaadin.com
  */
 @VaadinComponent
-@Scope("ui")
+@UiScope
 public class SpringManagedUI extends UI {
 
     @Autowired
