@@ -26,6 +26,8 @@ public class ChatView extends VerticalLayout implements View, ApplicationListene
     ChatService chatService;
     @Autowired
     ApplicationEventMulticaster eventMulticaster;
+    @Autowired
+    SpringManagedUI ui;
     private Label roomLabel;
     private Panel messagesPanel;
     private VerticalLayout messagesLayout;

@@ -8,7 +8,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Scope;
 
 /**
@@ -18,8 +17,6 @@ import org.springframework.context.annotation.Scope;
 @Scope("prototype")
 public class SpringManagedUI extends UI {
 
-    @Autowired
-    ApplicationContext applicationContext;
     @Autowired
     SpringViewProvider viewProvider;
     private TextField author;

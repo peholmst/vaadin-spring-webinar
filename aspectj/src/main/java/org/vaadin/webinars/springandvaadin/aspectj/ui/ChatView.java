@@ -22,9 +22,9 @@ import javax.annotation.PostConstruct;
 public class ChatView extends VerticalLayout implements View, ApplicationListener<MessagePostedEvent> {
 
     @Autowired
-    ChatService chatService;
+    transient ChatService chatService;
     @Autowired
-    ApplicationEventMulticaster eventMulticaster;
+    transient ApplicationEventMulticaster eventMulticaster;
     private Label roomLabel;
     private Panel messagesPanel;
     private VerticalLayout messagesLayout;
