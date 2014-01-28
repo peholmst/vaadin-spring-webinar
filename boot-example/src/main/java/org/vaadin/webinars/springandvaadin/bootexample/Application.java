@@ -48,8 +48,10 @@ public class Application extends SpringBootServletInitializer {
 
     @Bean
     ServletRegistrationBean vaadinServlet() {
-        return new ServletRegistrationBean(
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(
                 new Servlet(), "/*", "/VAADIN/*");
+        registrationBean.addInitParameter("heartbeatInterval", "10"); // In order to test that orphaned UIs are detached properly
+        return registrationBean;
     }
 }
 
