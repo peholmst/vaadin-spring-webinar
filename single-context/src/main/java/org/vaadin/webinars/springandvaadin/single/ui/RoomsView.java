@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 /**
  * @author petter@vaadin.com
  */
-@ManagedComponent("rooms")
+//@ManagedComponent("rooms")
 @Scope("prototype")
 public class RoomsView extends VerticalLayout implements View, ApplicationListener<RoomCreatedEvent> {
 

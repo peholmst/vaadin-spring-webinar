@@ -9,16 +9,19 @@ import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.event.ApplicationEventMulticaster;
 
 /**
  * @author petter@vaadin.com
  */
 @ManagedComponent
-@Scope("prototype")
+@Scope ("ui")
 public class SpringManagedUI extends UI {
 
-    @Autowired
-    SpringViewProvider viewProvider;
+//    @Autowired
+//    ApplicationEventMulticaster eventMulticaster;
+
+    /// @Autowired SpringViewProvider viewProvider;
     private TextField author;
     private Panel viewContainer;
 
@@ -40,12 +43,12 @@ public class SpringManagedUI extends UI {
 
         setContent(layout);
 
-        Navigator navigator = new Navigator(this, viewContainer);
+  /*      Navigator navigator = new Navigator(this, viewContainer);
         navigator.addProvider(viewProvider);
         if (navigator.getState().isEmpty()) {
             navigator.navigateTo("rooms");
         }
-        setPollInterval(800);
+        setPollInterval(800);*/
     }
 
     public String getAuthor() {

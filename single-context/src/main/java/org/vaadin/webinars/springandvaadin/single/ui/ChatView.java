@@ -18,14 +18,16 @@ import javax.annotation.PostConstruct;
 /**
  * @author petter@vaadin.com
  */
-@ManagedComponent("chat")
-@Scope("prototype")
+//@ManagedComponent("chat")
+@Scope  ("prototype")
 public class ChatView extends VerticalLayout implements View, ApplicationListener<MessagePostedEvent> {
 
     @Autowired
     ChatService chatService;
+
     @Autowired
     ApplicationEventMulticaster eventMulticaster;
+
     @Autowired
     SpringManagedUI ui;
     private Label roomLabel;
