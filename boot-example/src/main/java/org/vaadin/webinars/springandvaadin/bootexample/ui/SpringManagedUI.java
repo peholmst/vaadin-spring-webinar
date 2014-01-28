@@ -7,8 +7,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.vaadin.spring.UiScope;
+import org.vaadin.spring.VaadinComponent;
 
 /**
  * @author petter@vaadin.com

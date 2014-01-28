@@ -1,13 +1,14 @@
 package org.vaadin.webinars.springandvaadin.bootexample;
 
 
+import com.vaadin.ui.UI;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.vaadin.spring.EnableVaadin;
+import org.vaadin.spring.VaadinConfigurer;
+import org.vaadin.webinars.springandvaadin.bootexample.ui.SpringManagedUI;
 
 /**
  * Entry point into the Vaadin web application. You may run this from
@@ -20,7 +21,7 @@ import org.vaadin.spring.EnableVaadin;
  */
 @EnableAutoConfiguration
 @ComponentScan
-public class Application extends SpringBootServletInitializer {
+public class Application extends SpringBootServletInitializer implements VaadinConfigurer {
 
     private static Class<Application> applicationClass = Application.class;
 
@@ -31,6 +32,11 @@ public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(applicationClass, args);
+    }
+
+    @Override
+    public Class<? extends UI> uiClass() {
+        return SpringManagedUI.class;
     }
 }
 

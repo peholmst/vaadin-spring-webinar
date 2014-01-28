@@ -6,7 +6,6 @@ import com.vaadin.util.CurrentInstance;
 import org.apache.log4j.Logger;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.vaadin.webinars.springandvaadin.bootexample.ui.SpringManagedUI;
 
 import javax.servlet.ServletException;
 
@@ -20,31 +19,41 @@ import javax.servlet.ServletException;
  */
 public class SpringAwareVaadinServlet extends VaadinServlet {
 
+    private Class<? extends UI> uiClass;
+
+    public SpringAwareVaadinServlet(Class<? extends UI> uiClass) {
+        this.uiClass = uiClass;
+    }
+
     @Override
     protected void servletInitialized() throws ServletException {
         getService().addSessionInitListener(new SessionInitListener() {
             @Override
             public void sessionInit(SessionInitEvent sessionInitEvent) throws ServiceException {
-                UIScopedAwareUiProvider UIScopedAwareUiProvider =
-                        new UIScopedAwareUiProvider( WebApplicationContextUtils.getWebApplicationContext(getServletContext()));
-                sessionInitEvent.getSession().addUIProvider(UIScopedAwareUiProvider);
+                WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+                UIScopedAwareUiProvider uiProvider = new UIScopedAwareUiProvider(webApplicationContext, uiClass);
+                sessionInitEvent.getSession().addUIProvider(uiProvider);
             }
         });
     }
 
+    /**
+     *
+     */
     public static class UIScopedAwareUiProvider extends UIProvider {
 
         private Logger logger = Logger.getLogger(getClass());
-
         private WebApplicationContext webApplicationContext;
+        private Class<? extends UI> uiClass;
 
-        public UIScopedAwareUiProvider(WebApplicationContext webApplicationContext) {
+        public UIScopedAwareUiProvider(WebApplicationContext webApplicationContext, Class<? extends UI> uiClass) {
             this.webApplicationContext = webApplicationContext;
+            this.uiClass = uiClass;
         }
 
         @Override
         public Class<? extends UI> getUIClass(UIClassSelectionEvent uiClassSelectionEvent) {
-            return SpringManagedUI.class;
+            return this.uiClass;
         }
 
         @Override

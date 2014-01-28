@@ -9,7 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.vaadin.webinars.springandvaadin</groupId>
     <artifactId>boot-example</artifactId>
     <packaging>war</packaging>
 

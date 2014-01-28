@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.vaadin.spring.UiScope;
+import org.vaadin.spring.VaadinComponent;
 import org.vaadin.webinars.springandvaadin.bootexample.backend.ChatService;
 import org.vaadin.webinars.springandvaadin.bootexample.backend.RoomCreatedEvent;
 
@@ -17,7 +18,6 @@ import javax.annotation.PreDestroy;
  * @author petter@vaadin.com
  */
 @VaadinComponent("rooms")
-//@Scope("ui")
 @UiScope
 public class RoomsView extends VerticalLayout implements View {
 

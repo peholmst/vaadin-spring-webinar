@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.event.ApplicationEventMulticaster;
+import org.vaadin.spring.UiScope;
+import org.vaadin.spring.VaadinComponent;
 import org.vaadin.webinars.springandvaadin.bootexample.backend.ChatMessage;
 import org.vaadin.webinars.springandvaadin.bootexample.backend.ChatService;
 import org.vaadin.webinars.springandvaadin.bootexample.backend.MessagePostedEvent;
@@ -20,7 +22,7 @@ import javax.annotation.PreDestroy;
  * @author petter@vaadin.com
  */
 @VaadinComponent("chat")
-@Scope("ui")
+@UiScope
 public class ChatView extends VerticalLayout implements View {
 
     private final ApplicationListener<MessagePostedEvent> messagePostedEventListener = new ApplicationListener<MessagePostedEvent>() {

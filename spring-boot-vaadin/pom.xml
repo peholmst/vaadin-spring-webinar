@@ -10,14 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
      <artifactId>spring-boot-vaadin</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
-    <!--    <dependency>
-            <groupId>com.cybercom</groupId>
-            <artifactId>spring-ui-scope</artifactId>
-            <version>0.0.2</version>
-        </dependency>-->
+        <dependency>
+            <groupId>org.vaadin.webinars.springandvaadin</groupId>
+            <artifactId>spring-vaadin</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
