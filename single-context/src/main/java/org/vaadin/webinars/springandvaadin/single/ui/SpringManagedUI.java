@@ -1,5 +1,6 @@
 package org.vaadin.webinars.springandvaadin.single.ui;
 
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
@@ -7,8 +8,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.context.event.ApplicationEventMulticaster;
-import org.vaadin.webinars.springandvaadin.single.backend.ChatService;
 
 /**
  * @author petter@vaadin.com
@@ -18,12 +17,7 @@ import org.vaadin.webinars.springandvaadin.single.backend.ChatService;
 public class SpringManagedUI extends UI {
 
     @Autowired
-    ApplicationEventMulticaster eventMulticaster;
-
-    @Autowired
-    ChatService chatService;
-
-    /// @Autowired SpringViewProvider viewProvider;
+    SpringViewProvider viewProvider;
     private TextField author;
     private Panel viewContainer;
 
@@ -45,12 +39,12 @@ public class SpringManagedUI extends UI {
 
         setContent(layout);
 
-  /*      Navigator navigator = new Navigator(this, viewContainer);
+        Navigator navigator = new Navigator(this, viewContainer);
         navigator.addProvider(viewProvider);
         if (navigator.getState().isEmpty()) {
             navigator.navigateTo("rooms");
         }
-        setPollInterval(800);*/
+        setPollInterval(800);
     }
 
     public String getAuthor() {

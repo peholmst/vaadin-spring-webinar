@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Scope;
  * @author petter@vaadin.com
  */
 @ManagedComponent
-@Scope("prototype")
+@Scope("ui")
 public class SpringViewProvider implements ViewProvider {
 
     @Autowired

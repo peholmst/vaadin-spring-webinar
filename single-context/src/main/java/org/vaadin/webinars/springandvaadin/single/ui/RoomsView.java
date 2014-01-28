@@ -11,19 +11,25 @@ import org.vaadin.webinars.springandvaadin.single.backend.ChatService;
 import org.vaadin.webinars.springandvaadin.single.backend.RoomCreatedEvent;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * @author petter@vaadin.com
  */
-//@ManagedComponent("rooms")
+@ManagedComponent("rooms")
 @Scope("ui")
-public class RoomsView extends VerticalLayout implements View, ApplicationListener<RoomCreatedEvent> {
+public class RoomsView extends VerticalLayout implements View {
 
+    private final ApplicationListener<RoomCreatedEvent> roomCreatedEventListener = new ApplicationListener<RoomCreatedEvent>() {
+        @Override
+        public void onApplicationEvent(RoomCreatedEvent event) {
+            rooms.addItem(event.getRoom());
+        }
+    };
     @Autowired
     ChatService chatService;
-//    @Autowired
-//    ApplicationEventMulticaster eventMulticaster;
-
+    @Autowired
+    ApplicationEventMulticaster eventMulticaster;
     private TextField newRoomField;
     private ListSelect rooms;
     private Button addRoom;
@@ -70,26 +76,16 @@ public class RoomsView extends VerticalLayout implements View, ApplicationListen
             }
         });
         addComponent(goToRoom);
+        eventMulticaster.addApplicationListener(roomCreatedEventListener);  // TODO Would it be possible to let RoomsView implement ApplicationListener directly and let Spring handle the registration and deregistration?
     }
 
-    @Override
-    public void attach() {
-        super.attach();
-//        eventMulticaster.addApplicationListener(this);
-    }
-
-    @Override
-    public void detach() {
- //       eventMulticaster.removeApplicationListener(this);
-        super.detach();
+    @PreDestroy
+    void destroy() {
+        System.out.println(this + " is cleaning up after itself");
+        eventMulticaster.removeApplicationListener(roomCreatedEventListener);
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-    }
-
-    @Override
-    public void onApplicationEvent(RoomCreatedEvent event) {
-        rooms.addItem(event.getRoom());
     }
 }

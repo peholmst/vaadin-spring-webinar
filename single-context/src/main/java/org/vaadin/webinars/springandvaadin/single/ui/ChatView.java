@@ -14,22 +14,29 @@ import org.vaadin.webinars.springandvaadin.single.backend.ChatService;
 import org.vaadin.webinars.springandvaadin.single.backend.MessagePostedEvent;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * @author petter@vaadin.com
  */
-//@ManagedComponent("chat")
-@Scope  ("prototype")
-public class ChatView extends VerticalLayout implements View, ApplicationListener<MessagePostedEvent> {
+@ManagedComponent("chat")
+@Scope("ui")
+public class ChatView extends VerticalLayout implements View {
 
+    private final ApplicationListener<MessagePostedEvent> messagePostedEventListener = new ApplicationListener<MessagePostedEvent>() {
+        @Override
+        public void onApplicationEvent(MessagePostedEvent event) {
+            if (event.getMessage().getRoom().equals(room)) {
+                addMessage(event.getMessage());
+            }
+        }
+    };
     @Autowired
     ChatService chatService;
-
     @Autowired
     ApplicationEventMulticaster eventMulticaster;
-
     @Autowired
-    SpringManagedUI ui;
+    SpringManagedUI ui; // TODO This injection would not work if ChatView was prototype scoped
     private Label roomLabel;
     private Panel messagesPanel;
     private VerticalLayout messagesLayout;
@@ -67,29 +74,25 @@ public class ChatView extends VerticalLayout implements View, ApplicationListene
         post = new Button("Post", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                chatService.post(new ChatMessage(((SpringManagedUI) getUI()).getAuthor(), room, message.getValue()));
+                chatService.post(new ChatMessage(ui.getAuthor(), room, message.getValue()));
                 message.setValue("");
                 message.focus();
             }
         });
         post.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         bar.addComponent(post);
+        eventMulticaster.addApplicationListener(messagePostedEventListener);
     }
 
-    @Override
-    public void attach() {
-        super.attach();
-        eventMulticaster.addApplicationListener(this);
-    }
-
-    @Override
-    public void detach() {
-        eventMulticaster.removeApplicationListener(this);
-        super.detach();
+    @PreDestroy
+    void destroy() {
+        System.out.println(this + " is cleaning up after itself");
+        eventMulticaster.removeApplicationListener(messagePostedEventListener);
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+        messagesLayout.removeAllComponents();
         room = viewChangeEvent.getParameters();
         for (ChatMessage message : chatService.getMessagesInRoom(room)) {
             addMessage(message);
@@ -99,12 +102,5 @@ public class ChatView extends VerticalLayout implements View, ApplicationListene
     private void addMessage(ChatMessage message) {
         messagesLayout.addComponent(new Label(String.format("%s %s: %s", message.getTimestamp(),
                 message.getSender(), message.getMessage())));
-    }
-
-    @Override
-    public void onApplicationEvent(MessagePostedEvent event) {
-        if (event.getMessage().getRoom().equals(room)) {
-            addMessage(event.getMessage());
-        }
     }
 }
