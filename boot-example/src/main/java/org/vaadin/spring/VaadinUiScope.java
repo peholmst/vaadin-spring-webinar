@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Josh Long (josh@joshlong.com)
  * @author Petter Holmström (petter@vaadin.com)
- * @see org.vaadin.spring.UiScoped
+ * @see UiScope
  */
 public class VaadinUiScope implements Scope, ClientConnector.DetachListener, BeanFactoryPostProcessor {
 
@@ -50,33 +50,33 @@ public class VaadinUiScope implements Scope, ClientConnector.DetachListener, Bea
     @Override
     public Object get(String name, ObjectFactory<?> objectFactory) {
         final VaadinUiIdentifier uiIdentifier = currentUiId();
-        System.out.println("Getting bean with name " + name + " [UI-ID: " + uiIdentifier + "]");
+        logger.debug("Getting bean with name " + name + " [UI-ID: " + uiIdentifier + "]");
         Map<String, Object> uiSpace = objectMap.get(uiIdentifier);
         if (uiSpace == null) {
             logger.debug("Creating new uiSpace [UI-ID: " + uiIdentifier + "]");
-            uiSpace = Collections.synchronizedMap(new LinkedHashMap<String, Object>());
+            uiSpace = new ConcurrentHashMap <String, Object> ();
             objectMap.put(uiIdentifier, uiSpace);
         }
 
         Object bean = uiSpace.get(name);
         if (bean == null) {
-            System.out.println("Bean " + name + " not found in uiSpace, invoking object factory [UI-ID: " + uiIdentifier + "]");
+            logger.debug("Bean " + name + " not found in uiSpace, invoking object factory [UI-ID: " + uiIdentifier + "]");
             bean = objectFactory.getObject();
             if (bean instanceof UI) {
-                System.out.println("Registering DetachListener with " + bean + "[UI-ID: " + uiIdentifier + "]");
+                logger.debug("Registering DetachListener with " + bean + "[UI-ID: " + uiIdentifier + "]");
                 ((UI) bean).addDetachListener(this);
             }
             uiSpace.put(name, bean);
         }
 
-        System.out.println("Returning bean " + bean + " with name " + name + " [UI-ID: " + uiIdentifier + "]");
+        logger.debug("Returning bean " + bean + " with name " + name + " [UI-ID: " + uiIdentifier + "]");
         return bean;
     }
 
     @Override
     public Object remove(String name) {
         final VaadinUiIdentifier uiIdentifier = currentUiId();
-        System.out.println("Removing bean with name " + name + " [UI-ID: " + uiIdentifier + "]");
+        logger.debug("Removing bean with name " + name + " [UI-ID: " + uiIdentifier + "]");
 
         final Map<String, Runnable> destructionSpace = destructionCallbackMap.get(uiIdentifier);
         if (destructionSpace != null) {
@@ -89,7 +89,7 @@ public class VaadinUiScope implements Scope, ClientConnector.DetachListener, Bea
                 return uiSpace.remove(name);
             } finally {
                 if (uiSpace.isEmpty()) {
-                    System.out.println("UiSpace empty, removing [UI-ID: " + uiIdentifier + "]");
+                    logger.debug("UiSpace empty, removing [UI-ID: " + uiIdentifier + "]");
                     objectMap.remove(uiIdentifier);
                 }
             }
@@ -100,7 +100,7 @@ public class VaadinUiScope implements Scope, ClientConnector.DetachListener, Bea
     @Override
     public void registerDestructionCallback(String name, Runnable callback) {
         final VaadinUiIdentifier uiIdentifier = currentUiId();
-        System.out.println("Registering destruction callback " + callback + " for bean with name " + name + " [UI-ID: " + uiIdentifier + "]");
+        logger.debug("Registering destruction callback " + callback + " for bean with name " + name + " [UI-ID: " + uiIdentifier + "]");
         Map<String, Runnable> destructionSpace = destructionCallbackMap.get(uiIdentifier);
         if (destructionSpace == null) {
             destructionSpace = Collections.synchronizedMap(new LinkedHashMap<String, Runnable>());
@@ -121,7 +121,7 @@ public class VaadinUiScope implements Scope, ClientConnector.DetachListener, Bea
 
     @Override
     public void detach(ClientConnector.DetachEvent event) {
-        System.out.println("Received DetachEvent from " + event.getSource());
+        logger.debug("Received DetachEvent from " + event.getSource());
         final VaadinUiIdentifier uiIdentifier = new VaadinUiIdentifier((UI) event.getSource());
         final Map<String, Runnable> destructionSpace = destructionCallbackMap.remove(uiIdentifier);
         if (destructionSpace != null) {
@@ -135,8 +135,9 @@ public class VaadinUiScope implements Scope, ClientConnector.DetachListener, Bea
     @Override
     public void postProcessBeanFactory(
             ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        System.out.println("Registering UI scope with beanFactory " + beanFactory);
-        beanFactory.registerScope("ui", this);
+        logger.debug("Registering UI scope with beanFactory " + beanFactory);
+        beanFactory.registerScope(UI_SCOPE_NAME, this);
     }
 
+    public static final String UI_SCOPE_NAME = "ui";
 }

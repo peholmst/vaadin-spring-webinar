@@ -19,7 +19,7 @@ import javax.annotation.PreDestroy;
 /**
  * @author petter@vaadin.com
  */
-@ManagedComponent("chat")
+@VaadinComponent("chat")
 @Scope("ui")
 public class ChatView extends VerticalLayout implements View {
 

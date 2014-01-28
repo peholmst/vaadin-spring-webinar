@@ -3,9 +3,12 @@ package org.vaadin.spring;
 import com.vaadin.ui.UI;
 
 /**
- * Created by jlong on 1/28/14.
+ * Uniquely identifies a UI instance for a given window/tab.
+ *
+ * @author petter@vaadin.com
+ * @author Josh Long (josh@joshlong.com)
  */
-class VaadinUiIdentifier {
+public class VaadinUiIdentifier {
     private final int uiId;
 
     public VaadinUiIdentifier(int uiId) {

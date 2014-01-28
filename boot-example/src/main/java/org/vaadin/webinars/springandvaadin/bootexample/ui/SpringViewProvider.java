@@ -4,13 +4,13 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
+import org.vaadin.spring.UiScope;
 
 /**
  * @author petter@vaadin.com
  */
-@ManagedComponent
-@Scope("ui")
+@VaadinComponent
+@UiScope
 public class SpringViewProvider implements ViewProvider {
 
     @Autowired

@@ -18,10 +18,8 @@ import org.vaadin.spring.EnableVaadin;
  * @author Petter Holmström (petter@vaadin.com)
  * @author Josh Long (josh@joshlong.com)
  */
-@Configuration
 @EnableAutoConfiguration
 @ComponentScan
-@EnableVaadin
 public class Application extends SpringBootServletInitializer {
 
     private static Class<Application> applicationClass = Application.class;

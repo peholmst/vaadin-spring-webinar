@@ -5,8 +5,8 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.Scope;
 import org.springframework.context.event.ApplicationEventMulticaster;
+import org.vaadin.spring.UiScope;
 import org.vaadin.webinars.springandvaadin.bootexample.backend.ChatService;
 import org.vaadin.webinars.springandvaadin.bootexample.backend.RoomCreatedEvent;
 
@@ -16,8 +16,9 @@ import javax.annotation.PreDestroy;
 /**
  * @author petter@vaadin.com
  */
-@ManagedComponent("rooms")
-@Scope("ui")
+@VaadinComponent("rooms")
+//@Scope("ui")
+@UiScope
 public class RoomsView extends VerticalLayout implements View {
 
     private final ApplicationListener<RoomCreatedEvent> roomCreatedEventListener = new ApplicationListener<RoomCreatedEvent>() {

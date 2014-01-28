@@ -9,6 +9,6 @@ package org.vaadin.webinars.springandvaadin.bootexample.ui;
 @java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
 @java.lang.annotation.Documented
 @org.springframework.stereotype.Component
-public @interface ManagedComponent {
+public @interface VaadinComponent {
     String value() default "";
 }

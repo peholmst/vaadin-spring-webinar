@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Scope;
 /**
  * @author petter@vaadin.com
  */
-@ManagedComponent
+@VaadinComponent
 @Scope("ui")
 public class SpringManagedUI extends UI {
 

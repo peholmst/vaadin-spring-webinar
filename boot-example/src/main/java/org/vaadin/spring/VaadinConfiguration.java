@@ -6,11 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * TODO support the *Configurer pattern to permit parameterization of things \
+ * TODO like the {@link org.vaadin.spring.SpringAwareVaadinServlet registration}.
+ *
  * @author petter@vaadin.com
  * @author Josh Long (josh@joshlong.com)
  * @see org.vaadin.spring.EnableVaadin
- * <p/>
- * TODO support the *Configurer pattern to permit paremeterization of things like the {@link org.vaadin.spring.SpringAwareVaadinServlet registration}.
  */
 @Configuration
 public class VaadinConfiguration {
