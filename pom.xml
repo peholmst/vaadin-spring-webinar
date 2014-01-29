@@ -8,25 +8,11 @@
     <artifactId>parent-pom</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.0.0.RC1</version>
-    </parent>
-
     <modules>
-      <!-- actual integration to be factored out into a separate module -->
-      <module>spring-vaadin</module>
-      <module>spring-boot-vaadin</module>
-			
         <module>boot-example</module>
         <module>aspectj</module>
         <module>serialization</module>
         <module>i18n</module>
-
-      
-
-
     </modules>
     <packaging>pom</packaging>
 
@@ -134,13 +120,6 @@
         <repository>
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
-        </repository>
-        <repository>
-            <id>spring-snapshots</id>
-            <url>http://repo.spring.io/libs-snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
         </repository>
     </repositories>
 </project>
