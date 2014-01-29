@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 import org.vaadin.spring.EnableVaadin;
 import org.vaadin.spring.SpringAwareVaadinServlet;
 import org.vaadin.spring.VaadinConfigurer;
-import org.vaadin.spring.VaadinUiScope;
+import org.vaadin.spring.VaadinUIScope;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * @see org.vaadin.spring.EnableVaadin
  */
 @Configuration
-@ConditionalOnClass(VaadinUiScope.class)
+@ConditionalOnClass(VaadinUIScope.class)
 public class VaadinAutoConfiguration {
 
     private static Logger logger = Logger.getLogger(VaadinAutoConfiguration.class);

@@ -4,7 +4,8 @@ package org.vaadin.spring;
 import com.vaadin.server.ClientConnector;
 import com.vaadin.ui.UI;
 import com.vaadin.util.CurrentInstance;
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -24,32 +25,32 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Josh Long (josh@joshlong.com)
  * @author Petter Holmström (petter@vaadin.com)
- * @see UiScope
+ * @see UIScope
  */
-public class VaadinUiScope implements Scope, ClientConnector.DetachListener, BeanFactoryPostProcessor {
+public class VaadinUIScope implements Scope, ClientConnector.DetachListener, BeanFactoryPostProcessor {
 
-    private Logger logger = Logger.getLogger(getClass()) ;
+    private Log logger = LogFactory.getLog(getClass());
 
-    private final Map<VaadinUiIdentifier, Map<String, Object>> objectMap =
-            new ConcurrentHashMap<VaadinUiIdentifier, Map<String, Object>>();
+    private final Map<VaadinUIIdentifier, Map<String, Object>> objectMap =
+            new ConcurrentHashMap<VaadinUIIdentifier, Map<String, Object>>();
 
-    private final Map<VaadinUiIdentifier, Map<String, Runnable>> destructionCallbackMap =
-            new ConcurrentHashMap<VaadinUiIdentifier, Map<String, Runnable>>();
+    private final Map<VaadinUIIdentifier, Map<String, Runnable>> destructionCallbackMap =
+            new ConcurrentHashMap<VaadinUIIdentifier, Map<String, Runnable>>();
 
-    private VaadinUiIdentifier currentUiId() {
+    private VaadinUIIdentifier currentUiId() {
         final UI currentUI = UI.getCurrent();
         if (currentUI != null) {
-            return new VaadinUiIdentifier(currentUI);
+            return new VaadinUIIdentifier(currentUI);
         } else {
-            VaadinUiIdentifier currentIdentifier = CurrentInstance.get(VaadinUiIdentifier.class);
-            Assert.notNull(currentIdentifier, "found no valid " + VaadinUiIdentifier.class.getName() + " instance!");
+            VaadinUIIdentifier currentIdentifier = CurrentInstance.get(VaadinUIIdentifier.class);
+            Assert.notNull(currentIdentifier, "found no valid " + VaadinUIIdentifier.class.getName() + " instance!");
             return currentIdentifier;
         }
     }
 
     @Override
     public Object get(String name, ObjectFactory<?> objectFactory) {
-        final VaadinUiIdentifier uiIdentifier = currentUiId();
+        final VaadinUIIdentifier uiIdentifier = currentUiId();
         logger.debug("Getting bean with name " + name + " [UI-ID: " + uiIdentifier + "]");
         Map<String, Object> uiSpace = objectMap.get(uiIdentifier);
         if (uiSpace == null) {
@@ -75,7 +76,7 @@ public class VaadinUiScope implements Scope, ClientConnector.DetachListener, Bea
 
     @Override
     public Object remove(String name) {
-        final VaadinUiIdentifier uiIdentifier = currentUiId();
+        final VaadinUIIdentifier uiIdentifier = currentUiId();
         logger.debug("Removing bean with name " + name + " [UI-ID: " + uiIdentifier + "]");
 
         final Map<String, Runnable> destructionSpace = destructionCallbackMap.get(uiIdentifier);
@@ -99,7 +100,7 @@ public class VaadinUiScope implements Scope, ClientConnector.DetachListener, Bea
 
     @Override
     public void registerDestructionCallback(String name, Runnable callback) {
-        final VaadinUiIdentifier uiIdentifier = currentUiId();
+        final VaadinUIIdentifier uiIdentifier = currentUiId();
         logger.debug("Registering destruction callback " + callback + " for bean with name " + name + " [UI-ID: " + uiIdentifier + "]");
         Map<String, Runnable> destructionSpace = destructionCallbackMap.get(uiIdentifier);
         if (destructionSpace == null) {
@@ -122,7 +123,7 @@ public class VaadinUiScope implements Scope, ClientConnector.DetachListener, Bea
     @Override
     public void detach(ClientConnector.DetachEvent event) {
         logger.debug("Received DetachEvent from " + event.getSource());
-        final VaadinUiIdentifier uiIdentifier = new VaadinUiIdentifier((UI) event.getSource());
+        final VaadinUIIdentifier uiIdentifier = new VaadinUIIdentifier((UI) event.getSource());
         final Map<String, Runnable> destructionSpace = destructionCallbackMap.remove(uiIdentifier);
         if (destructionSpace != null) {
             for (Runnable runnable : destructionSpace.values()) {

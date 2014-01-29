@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class VaadinConfiguration {
 
     @Bean
-    static VaadinUiScope uiScope() {
-        return new VaadinUiScope();
+    static VaadinUIScope uiScope() {
+        return new VaadinUIScope();
     }
 }
