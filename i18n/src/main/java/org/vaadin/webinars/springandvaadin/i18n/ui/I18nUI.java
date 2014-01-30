@@ -20,14 +20,17 @@ import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.*;
 
 import java.util.Locale;
 
 /**
  * @author petter@vaadin.com
  */
-@Configurable
+@org.springframework.stereotype.Component
+@Scope("prototype")
 public class I18nUI extends UI {
 
     @Autowired

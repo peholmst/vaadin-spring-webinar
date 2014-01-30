@@ -19,7 +19,4 @@
     </bean>
 
     <context:component-scan base-package="org.vaadin.webinars.springandvaadin.i18n"/>
-    <context:annotation-config/>
-    <context:spring-configured/>
-    <aop:aspectj-autoproxy/>
 </beans>

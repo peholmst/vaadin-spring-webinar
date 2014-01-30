@@ -15,8 +15,8 @@
  */
 package org.vaadin.webinars.springandvaadin.i18n.ui;
 
-import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.*;
+import com.vaadin.ui.UI;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -39,19 +39,34 @@ import java.util.Locale;
  * @author petter@vaadin.com
  */
 @WebServlet(urlPatterns = "/*")
-@VaadinServletConfiguration(ui = I18nUI.class, productionMode = false)
 public class Servlet extends VaadinServlet {
 
     private LocaleResolver localeResolver;
 
     @Override
     protected void servletInitialized() throws ServletException {
-        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+        final ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
         try {
             localeResolver = context.getBean(DispatcherServlet.LOCALE_RESOLVER_BEAN_NAME, LocaleResolver.class);
         } catch (NoSuchBeanDefinitionException e) {
             localeResolver = new SessionLocaleResolver();
         }
+        getService().addSessionInitListener(new SessionInitListener() {
+            @Override
+            public void sessionInit(SessionInitEvent sessionInitEvent) throws ServiceException {
+                sessionInitEvent.getSession().addUIProvider(new UIProvider() {
+                    @Override
+                    public Class<? extends UI> getUIClass(UIClassSelectionEvent uiClassSelectionEvent) {
+                        return I18nUI.class;
+                    }
+
+                    @Override
+                    public UI createInstance(UICreateEvent event) {
+                        return context.getBean(event.getUIClass());
+                    }
+                });
+            }
+        });
     }
 
     @Override
