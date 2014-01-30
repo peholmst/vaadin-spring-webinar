@@ -15,7 +15,6 @@
  */
 package org.vaadin.webinars.springandvaadin.bootexample;
 
-
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinRequest;
@@ -29,7 +28,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.vaadin.spring.VaadinUI;
-
 
 interface ContactRepository extends JpaRepository<Contact, Long> {
 }
@@ -66,7 +64,7 @@ class ContactUI extends UI {
         title.addStyleName(Reindeer.LABEL_H1);
         layout.addComponent(title);
 
-        contactsContainer = new BeanItemContainer<Contact>(Contact.class);
+        contactsContainer = new BeanItemContainer<>(Contact.class);
 
         contactsTable = new Table();
         contactsTable.setSizeFull();
@@ -91,7 +89,7 @@ class ContactUI extends UI {
         add = new Button("Add...", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                add();
+                addWindow(new NewContactWindow());
             }
         });
         toolbar.addComponent(add);
@@ -104,38 +102,46 @@ class ContactUI extends UI {
         contactsContainer.addAll(repository.findAll());
     }
 
-    private void add() {
-        final VerticalLayout windowLayout = new VerticalLayout();
-        windowLayout.setSpacing(true);
-        windowLayout.setMargin(true);
+    class NewContactWindow extends Window {
 
-        final Window window = new Window("Add Contact", windowLayout);
-        window.setModal(true);
-        window.center();
-        window.setResizable(false);
+        private TextField firstName = new TextField("First name");
+        private TextField lastName = new TextField("Last name");
+        private TextField email = new TextField("E-mail");
 
-        final FormLayout form = new FormLayout();
-        final BeanFieldGroup<Contact> binder = new BeanFieldGroup<Contact>(Contact.class);
-        binder.setBuffered(false);
-        form.addComponent(binder.buildAndBind("First name", "firstName"));
-        form.addComponent(binder.buildAndBind("Last name", "lastName"));
-        form.addComponent(binder.buildAndBind("E-mail", "email"));
-
-        final Contact newContact = new Contact();
-        binder.setItemDataSource(newContact);
-
-        Button commit = new Button("Save & Close", new Button.ClickListener() {
+        private Button commit = new Button("Save & Close", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 repository.saveAndFlush(newContact);
-                window.close();
+                close();
                 refresh();
             }
         });
 
-        windowLayout.addComponent(form);
-        windowLayout.addComponent(commit);
+        private Contact newContact = new Contact();
 
-        getUI().addWindow(window);
+        public NewContactWindow() {
+            setCaption("Add new contact");
+            setModal(true);
+            setResizable(false);
+
+            // Build layout containing fields and button
+            FormLayout form = new FormLayout(firstName, lastName, email);
+            VerticalLayout verticalLayout = new VerticalLayout(form, commit);
+            verticalLayout.setMargin(true);
+            verticalLayout.setSpacing(true);
+            setContent(verticalLayout);
+
+            // Bind fields to entity properties by naming convention
+            BeanFieldGroup<Contact> binder = new BeanFieldGroup<>(Contact.class);
+            binder.setBuffered(false);
+            binder.bindMemberFields(NewContactWindow.this);
+            binder.setItemDataSource(newContact);
+
+            // Automatically focus the firsName field
+            firstName.focus();
+
+        }
+
     }
+
 }
